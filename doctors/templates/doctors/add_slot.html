@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Add Availability Slot{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Add Availability Slot</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Day</label>
+                        {{ form.day }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Start Time</label>
+                        {{ form.start_time }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">End Time</label>
+                        {{ form.end_time }}
+                    </div>
+
+                    <div class="form-check mb-3">
+                        {{ form.is_active }}
+                        <label class="form-check-label">Active</label>
+                    </div>
+
+                    <button class="btn btn-primary w-100">Save Slot</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

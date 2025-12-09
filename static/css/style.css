@@ -1,0 +1,15 @@
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.stat-card {
+    border-radius: 0.6rem;
+}
+
+.card {
+    border-radius: 0.6rem;
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+}

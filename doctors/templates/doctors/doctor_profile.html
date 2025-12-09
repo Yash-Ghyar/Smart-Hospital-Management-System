@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Doctor Profile{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Edit Profile</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Specialization</label>
+                        {{ form.specialization }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        {{ form.phone }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Experience (years)</label>
+                        {{ form.experience_years }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Room No</label>
+                        {{ form.room_no }}
+                    </div>
+
+                    <button class="btn btn-info text-white w-100">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

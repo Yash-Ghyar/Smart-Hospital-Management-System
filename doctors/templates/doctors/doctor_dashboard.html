@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Doctor Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Doctor Dashboard</h2>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Profile</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Name:</strong> Dr. {{ doctor.user.first_name }}</p>
+                <p><strong>Specialization:</strong> {{ doctor.specialization }}</p>
+                <p><strong>Phone:</strong> {{ doctor.phone|default:"-" }}</p>
+                <p><strong>Experience:</strong> {{ doctor.experience_years }} years</p>
+                <p><strong>Room No:</strong> {{ doctor.room_no|default:"-" }}</p>
+
+                <a href="{% url 'doctor_profile' %}" class="btn btn-outline-info btn-sm">
+                    Edit Profile
+                </a>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mt-3">
+            <div class="card-header bg-secondary text-white">
+                <h6 class="mb-0">Availability</h6>
+            </div>
+            <div class="card-body">
+                <a href="{% url 'add_slot' %}" class="btn btn-sm btn-primary mb-2">Add Slot</a>
+                <ul class="list-group small">
+                    {% for s in slots %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ s.get_day_display }}: {{ s.start_time }} - {{ s.end_time }}
+                            {% if s.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Off</span>
+                            {% endif %}
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item text-muted">No slots added.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Upcoming Appointments</h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table mb-0 table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Patient</th>
+                            <th>Symptoms</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for a in appointments %}
+                            <tr>
+                                <td>{{ a.date }}</td>
+                                <td>{{ a.time }}</td>
+                                <td>{{ a.patient.user.first_name }}</td>
+                                <td>{{ a.symptoms|truncatechars:40 }}</td>
+                                <td>
+                                    <span class="badge
+                                        {% if a.status == 'PENDING' %}bg-warning text-dark{% endif %}
+                                        {% if a.status == 'CONFIRMED' %}bg-success{% endif %}
+                                        {% if a.status == 'CANCELLED' %}bg-secondary{% endif %}
+                                    ">
+                                        {{ a.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-3">
+                                    No appointments yet.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

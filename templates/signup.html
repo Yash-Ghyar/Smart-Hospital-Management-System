@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Patient Signup{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="card shadow">
+                <div class="card-header bg-success text-white text-center">
+                    <h4>Create Patient Account</h4>
+                </div>
+
+                <div class="card-body">
+
+                    {% for message in messages %}
+                        <div class="alert alert-info">{{ message }}</div>
+                    {% endfor %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="full_name" class="form-control" required>
+
+                        <label class="form-label mt-3">Phone</label>
+                        <input type="text" name="phone" class="form-control" required>
+
+                        <label class="form-label mt-3">Username</label>
+                        <input type="text" name="username" class="form-control" required>
+
+                        <label class="form-label mt-3">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+
+                        <button class="btn btn-success w-100 mt-4">
+                            Create Account
+                        </button>
+                    </form>
+
+                    <p class="text-center mt-3">
+                        Already have an account?
+                        <a href="{% url 'login' %}">Login</a>
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

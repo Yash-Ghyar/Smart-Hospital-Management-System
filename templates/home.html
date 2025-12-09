@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Hospital System{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <h1 class="mb-3">Welcome to Hospital Management System</h1>
+    <p class="lead mb-4">
+        Manage doctors, patients and appointments easily.
+    </p>
+
+    <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-2">Login</a>
+    <a href="{% url 'patient_signup' %}" class="btn btn-outline-primary btn-lg me-2">Patient Signup</a>
+    <a href="{% url 'doctor_signup' %}" class="btn btn-outline-success btn-lg">Doctor Signup</a>
+</div>
+{% endblock %}

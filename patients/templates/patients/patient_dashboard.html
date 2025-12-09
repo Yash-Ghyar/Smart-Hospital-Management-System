@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Patient Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Patient Dashboard</h2>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Profile</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Name:</strong> {{ patient.user.first_name }}</p>
+                <p><strong>Phone:</strong> {{ patient.phone|default:"-" }}</p>
+                <p><strong>Gender:</strong> {{ patient.gender|default:"-" }}</p>
+                <p><strong>DOB:</strong> {{ patient.dob|default:"-" }}</p>
+                <p><strong>Blood Group:</strong> {{ patient.blood_group|default:"-" }}</p>
+                <p><strong>Address:</strong><br>{{ patient.address|linebreaksbr }}</p>
+
+                <a href="{% url 'patient_profile' %}" class="btn btn-outline-success btn-sm">
+                    Edit Profile
+                </a>
+            </div>
+        </div>
+
+        <div class="d-grid mt-3">
+            <a href="{% url 'book_appointment' %}" class="btn btn-primary">Book New Appointment</a>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Your Appointments</h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table mb-0 table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Doctor</th>
+                            <th>Symptoms</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for a in appointments %}
+                            <tr>
+                                <td>{{ a.date }}</td>
+                                <td>{{ a.time }}</td>
+                                <td>Dr. {{ a.doctor.user.first_name }} ({{ a.doctor.specialization }})</td>
+                                <td>{{ a.symptoms|truncatechars:40 }}</td>
+                                <td>
+                                    <span class="badge
+                                        {% if a.status == 'PENDING' %}bg-warning text-dark{% endif %}
+                                        {% if a.status == 'CONFIRMED' %}bg-success{% endif %}
+                                        {% if a.status == 'CANCELLED' %}bg-secondary{% endif %}
+                                    ">
+                                        {{ a.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-3">
+                                    No appointments yet.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">Medical History</h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table mb-0 table-sm">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Test</th>
+                            <th>Value</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for h in history %}
+                            <tr>
+                                <td>{{ h.test_date }}</td>
+                                <td>{{ h.test_name }}</td>
+                                <td>{{ h.test_value }}</td>
+                                <td>{{ h.remarks|default:"-" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-3">
+                                    No medical records available.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
